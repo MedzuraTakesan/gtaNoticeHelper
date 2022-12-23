@@ -133,6 +133,11 @@ const getAdditionalPhrase = (value) => {
 }
 
 const getBargain = (process, bargain, price) => {
+  console.log({
+    process,
+    bargain,
+    price
+  })
   if (process === 'sell' && bargain && price > '0') {
     return '. Возможен торг'
   }
@@ -146,7 +151,7 @@ export const start = (value) => {
   const getSecondWords = getPhrase(value.secondValue, value.process)
   const article = getArticle(value.process)
   const additionalPhrase = getAdditionalPhrase(value)
-  const bargain = getBargain(value.process, value.bargain, value.value)
+  const bargain = getBargain(value.process, value.bargain, value.secondValue.value)
 
   return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}${bargain}.`
 }
