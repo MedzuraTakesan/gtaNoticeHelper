@@ -9,7 +9,7 @@
       <data-input :value="name" @change="onChangeName"/>
     </template>
     <span>Действие</span>
-    <b-form-select :value="answer" :options="currentAnswers" @="onChangeAnswer"/>
+    <b-form-select :value="answer" :options="currentAnswers" @change="onChangeAnswer"/>
   </b-row>
 </template>
 

@@ -147,11 +147,6 @@ const getAdditionalPhrase = (value) => {
 }
 
 const getBargain = (process, bargain, price) => {
-  console.log({
-    process,
-    bargain,
-    price
-  })
   if (process === 'sell' && bargain && price > '0') {
     return '. Возможен торг'
   }
@@ -172,7 +167,7 @@ const getMarketPhrase = (value) => {
 }
 
 const getMeetingPhrase = (value) => {
-  return `${value.variable} для ${value.answer}. О себе: при встрече`
+  return `${value.variable} для ${value.answer}. О себе: при встрече.`
 }
 
 const getSearchPeoplePhrase = (value) => {
@@ -181,6 +176,7 @@ const getSearchPeoplePhrase = (value) => {
 
 
 const getPeoplePhrase = (value) => {
+  console.log(value)
   if (value.type === 'Знакомства') {
     return getMeetingPhrase(value)
   }
