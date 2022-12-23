@@ -17,12 +17,20 @@ export default {
         return 'Цена'
       }
 
-      if (this.value === 'machines') {
+      if (['machines', 'chinese machines'].includes(this.value)) {
         return 'Модель машины'
+      }
+
+      if (this.value === 'water transport') {
+        return 'Модель транспорта'
       }
 
       if (this.value === 'homes') {
         return 'Район'
+      }
+
+      if (['bikes', 'chinese bikes'].includes(this.value)) {
+        return 'Модель байки'
       }
 
       return  ''

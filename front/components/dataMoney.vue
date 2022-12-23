@@ -20,7 +20,7 @@
     <span v-if="value.type === 'price'">Пустое поле: Цена договорная/ свободная</span>
     <b-row v-if="isVisibleMachineSettings">
       <b-col>
-        <span>Настройки машины</span>
+        <span>Настройки транспорта</span>
         <data-settings
           :value="value.machineSettings"
           @change="onChangeMachineSettings"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { kind, process } from "~/constants/types";
+import { kind, kindOfTransportWithSettings } from "~/constants/types";
 import dataNames from "./dataNames.vue";
 import dataInput from "./dataInput.vue";
 import dataTypes from "./dataTypes.vue";
@@ -93,7 +93,7 @@ export default {
       return this.process === 'exchange' ? dataNames : dataInput
     },
     isVisibleMachineSettings () {
-      return this.value.type === 'machines'
+      return kindOfTransportWithSettings.includes(this.value.type)
     },
     isVisibleGarages () {
       return this.value.type === 'homes'

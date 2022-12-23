@@ -1,3 +1,9 @@
+import {
+  kindOfTransport,
+  kindOfTransportWithSettings,
+  kindOfTransportWithoutSettings
+} from "~/constants/types";
+
 function numberWithSpaces(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
@@ -15,12 +21,29 @@ const getType = (type) => {
   return ''
 }
 
+const getMachineType = (type) => {
+  if (type === 'water transport') {
+    return 'водный транспорт'
+  }
+
+  if (['bikes', 'chinese bikes'].includes(type)) {
+    return 'мото марки'
+  }
+
+  if (['machines', 'chinese machines'].includes(type)) {
+    return 'а/м'
+  }
+
+  return ''
+}
+
 const getMachinePhrase = (value) => {
-  const machineSettings = value.machineSettings === 'не указывать'
+  const isWithoutSettings = kindOfTransportWithoutSettings.includes(value.type)
+  const machineSettings = value.machineSettings === 'не указывать' || isWithoutSettings
     ? ''
     : ` ${value.machineSettings}`
 
-  return ` а/м ${value.value}${machineSettings}`
+  return ` ${getMachineType(value.type)} ${value.value}${machineSettings}`
 }
 
 const getGaragesCount = (value) => {
@@ -44,7 +67,7 @@ const getHomesPhrase = (value) => {
 }
 
 const getPricePhrase = (value, process) => {
-  const firstPhrase = process === 'buy' ? 'Бюджет' : 'Цена'
+  const firstPhrase = process === 'buy' ? ' Бюджет' : 'Цена'
   const lastPhrase = process === 'buy' ? ' свободный' : ' договорная'
   const price = value.value !== '' ? `: ${value.value}` : ''
   const correctLastPhrase = price !== '' ? `${numberWithSpaces(price)}$` : lastPhrase
@@ -53,7 +76,7 @@ const getPricePhrase = (value, process) => {
 }
 
 const getPhrase = (value, process) => {
-  if (value.type === 'machines') {
+  if (kindOfTransport.includes(value.type)) {
     return getMachinePhrase(value)
   }
   if (value.type === 'homes') {
@@ -73,11 +96,36 @@ const getArticle = (process) => {
   return '.'
 }
 
+const getAdditionalPaymentPhrase = (count) => {
+  if (count === '0') {
+    return ' договорная'
+  }
+
+  return `: ${numberWithSpaces(count)}$`
+}
+
+const getAdditionalPayment = (value) => {
+  if (value.additionalPayment === '') {
+    return ''
+  }
+
+  return `. Доплата${getAdditionalPaymentPhrase(value.additionalPayment)}`
+}
+
+const getAdditionalPhrase = (value) => {
+  if (value.process === 'exchange') {
+    return getAdditionalPayment(value)
+  }
+
+  return ''
+}
+
 export const start = (value) => {
   const type = getType(value.process)
   const getFirstWords = getPhrase(value.firstValue, value.process)
   const getSecondWords = getPhrase(value.secondValue, value.process)
   const article = getArticle(value.process)
+  const additionalPhrase = getAdditionalPhrase(value)
 
-  return `${type}${getFirstWords}${article}${getSecondWords}.`
+  return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}.`
 }

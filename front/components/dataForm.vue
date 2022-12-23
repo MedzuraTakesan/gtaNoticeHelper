@@ -4,6 +4,15 @@
     <b-col cols="2">
       <span>Вид сделки</span>
       <data-types :value="process" :options="processes" @change="onChangeProcess"/>
+      <template v-if="process === 'exchange'">
+        <span>Доплата</span>
+        <data-input
+          :value="additionalPayment"
+          @change="onChangeAdditionalPayment"
+        />
+        <span>Пустое поле - без доплаты</span>
+        <span>0 - Доплата: договорная</span>
+      </template>
     </b-col>
     <data-money :process="process" @change="onChangeSecondValue"/>
   </b-row>
@@ -18,6 +27,7 @@ export default {
   data() {
     return {
       process: process[0],
+      additionalPayment: '',
       firstValue: {},
       secondValue: {},
       processes: process
@@ -39,9 +49,13 @@ export default {
     onChangeSecondValue (value) {
       this.secondValue = value
     },
+    onChangeAdditionalPayment (value) {
+      this.additionalPayment = value
+    },
     getValues () {
       compileBus.$emit('send-compile', {
         process: this.process,
+        additionalPayment: this.additionalPayment,
         firstValue: this.firstValue,
         secondValue: this.secondValue
       })
