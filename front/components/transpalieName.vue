@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { homes } from "@/constants/types";
+
 export default {
   name: "transpalieName",
   props: {

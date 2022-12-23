@@ -10,8 +10,11 @@
           :value="additionalPayment"
           @change="onChangeAdditionalPayment"
         />
-        <span>Пустое поле - без доплаты</span>
-        <span>0 - Доплата: договорная</span>
+        <span>
+          Пустое поле - без доплаты
+          <br/>
+          0 - Доплата: договорная
+        </span>
       </template>
       <template v-if="process === 'sell'">
         <b-form-checkbox v-model="bargain" size="lg">

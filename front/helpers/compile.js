@@ -1,6 +1,6 @@
 import {
   kindOfTransport,
-  kindOfTransportWithSettings,
+  homes,
   kindOfTransportWithoutSettings
 } from "~/constants/types";
 
@@ -62,8 +62,18 @@ const getHomesPhrase = (value) => {
   const garageSettings = value.garageSettings === 'не указывать'
     ? ''
     : getGaragesCount(value)
+  const number = value.number > '' ? ` №${value.number}` : ''
 
-  return ` дом ${value.value}${garageSettings}`
+  return ` дом${number} ${value.value}${garageSettings}`
+}
+
+const getFlatsPhrase = (value) => {
+  const garageSettings = value.garageSettings === 'не указывать'
+    ? ''
+    : getGaragesCount(value)
+  const number = value.number > '' ? ` №${value.number}` : ''
+
+  return ` квартиру${number}${garageSettings}`
 }
 
 const getFirstPhraseForPrice = (process, price) => {
@@ -93,6 +103,9 @@ const getPhrase = (value, process) => {
   }
   if (value.type === 'homes') {
     return getHomesPhrase(value)
+  }
+  if (value.type === 'flats') {
+    return getFlatsPhrase(value)
   }
   if (value.type === 'price') {
     return getPricePhrase(value, process)
@@ -145,7 +158,8 @@ const getBargain = (process, bargain, price) => {
   return ''
 }
 
-export const start = (value) => {
+
+const getMarketPhrase = (value) => {
   const type = getType(value.process)
   const getFirstWords = getPhrase(value.firstValue, value.process)
   const getSecondWords = getPhrase(value.secondValue, value.process)
@@ -154,4 +168,34 @@ export const start = (value) => {
   const bargain = getBargain(value.process, value.bargain, value.secondValue.value)
 
   return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}${bargain}.`
+}
+
+const getMeetingPhrase = (value) => {
+  return `${value.variable} для ${value.answer}. О себе: при встрече`
+}
+
+const getSearchPeoplePhrase = (value) => {
+  return `${value.variable} ${value.name}. ${value.answer}`
+}
+
+
+const getPeoplePhrase = (value) => {
+  if (value.type === 'Знакомства') {
+    return getMeetingPhrase(value)
+  }
+  if (value.type === 'Поиск людей') {
+    return getSearchPeoplePhrase(value)
+  }
+  return ''
+}
+
+export const start = (value, type) => {
+  if (type === 'market') {
+    return getMarketPhrase(value)
+  }
+  if (type === 'people') {
+    return getPeoplePhrase(value)
+  }
+
+  return ''
 }

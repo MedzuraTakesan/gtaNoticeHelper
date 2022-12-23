@@ -12,6 +12,7 @@
     </b-row>
     <transpalie-name :value="value.type"/>
     <component
+      v-if="value.type !== 'flats'"
       :is="components"
       :value="value.value"
       :options="value.options"
@@ -39,8 +40,19 @@
           :value="value.garageSettings"
           @change="onChangeGarageSettings"
         />
+        <span>Настройки номера</span>
+        <data-input
+          :value="value.number"
+          @change="onChangeNumber"
+        />
+        <span>
+          Пустое поле - без номера
+        </span>
         <template v-if="isVisibleGarageCounts">
-          <span>Кол-во гаражей</span>
+          <span>
+            <br/>
+            Кол-во гаражей
+          </span>
           <data-input
             :value="value.garageCounts"
             @change="onChangeGarageCounts"
@@ -52,7 +64,7 @@
 </template>
 
 <script>
-import { kind, kindOfTransportWithSettings } from "~/constants/types";
+import { kind, kindOfTransportWithSettings, homes } from "~/constants/types";
 import dataNames from "./dataNames.vue";
 import dataInput from "./dataInput.vue";
 import dataTypes from "./dataTypes.vue";
@@ -82,6 +94,7 @@ export default {
         machineSettings: 'не указывать',
         garageSettings: 'не указывать',
         garageCounts: '0',
+        number: '',
         options: kind[initialType],
       }
     }
@@ -101,10 +114,10 @@ export default {
       return kindOfTransportWithSettings.includes(this.value.type)
     },
     isVisibleGarages () {
-      return this.value.type === 'homes'
+      return homes.includes(this.value.type)
     },
     isVisibleGarageCounts () {
-      return this.value.type === 'homes' && this.value.garageSettings === 'г.м'
+      return homes.includes(this.value.type) && this.value.garageSettings === 'г.м'
     }
   },
   watch: {
@@ -139,6 +152,9 @@ export default {
     },
     onChangeGarageSettings (value) {
       this.value.garageSettings = value
+    },
+    onChangeNumber (value) {
+      this.value.number = value
     },
     onChangeGarageCounts (value) {
       this.value.garageCounts = value

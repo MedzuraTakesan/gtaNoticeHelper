@@ -3,7 +3,7 @@ import bikes from "./bikes";
 import chineseMachines from "./chineseMachines";
 import chineseBikes from "./chineseBikes";
 import waterMachines from "./waterMachines";
-import homes from "./homes";
+import homeses from "./homes";
 
 export const kindOfTransportWithSettings = [
   'machines',
@@ -23,9 +23,11 @@ export const kind = {
     'chinese machines': chineseMachines,
     'chinese bikes': chineseBikes,
     'water transport': waterMachines,
-    homes: homes,
+    homes: homeses,
+    flats: homeses,
     price: ''
 }
 
+export const homes = ['homes', 'flats']
 
 export const process = ['buy', 'sell', 'exchange']
