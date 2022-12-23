@@ -13,6 +13,11 @@
         <span>Пустое поле - без доплаты</span>
         <span>0 - Доплата: договорная</span>
       </template>
+      <template v-if="process === 'sell'">
+        <b-form-checkbox v-model="bargain" size="lg">
+          <span>Торг</span>
+        </b-form-checkbox>
+      </template>
     </b-col>
     <data-money :process="process" @change="onChangeSecondValue"/>
   </b-row>
@@ -28,6 +33,7 @@ export default {
     return {
       process: process[0],
       additionalPayment: '',
+      bargain: false,
       firstValue: {},
       secondValue: {},
       processes: process
@@ -55,6 +61,7 @@ export default {
     getValues () {
       compileBus.$emit('send-compile', {
         process: this.process,
+        bargain: this.bargain,
         additionalPayment: this.additionalPayment,
         firstValue: this.firstValue,
         secondValue: this.secondValue

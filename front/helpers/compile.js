@@ -66,11 +66,23 @@ const getHomesPhrase = (value) => {
   return ` дом ${value.value}${garageSettings}`
 }
 
+const getFirstPhraseForPrice = (process, price) => {
+  if (process === 'sell') {
+    return ' Цена'
+  }
+
+  if (process === 'buy' && price === '0') {
+    return ' Цена'
+  }
+
+  return ' Бюджет'
+}
+
 const getPricePhrase = (value, process) => {
-  const firstPhrase = process === 'buy' ? ' Бюджет' : 'Цена'
-  const lastPhrase = process === 'buy' ? ' свободный' : ' договорная'
+  const firstPhrase = getFirstPhraseForPrice(process, value.value)
+  const lastPhrase = firstPhrase === ' Бюджет' ? ' свободный' : ' договорная'
   const price = value.value !== '' ? `: ${value.value}` : ''
-  const correctLastPhrase = price !== '' ? `${numberWithSpaces(price)}$` : lastPhrase
+  const correctLastPhrase = value.value > '0' ? `${numberWithSpaces(price)}$` : lastPhrase
 
   return `${firstPhrase}${correctLastPhrase}`
 }
@@ -120,12 +132,21 @@ const getAdditionalPhrase = (value) => {
   return ''
 }
 
+const getBargain = (process, bargain, price) => {
+  if (process === 'sell' && bargain && price > '0') {
+    return '. Возможен торг'
+  }
+
+  return ''
+}
+
 export const start = (value) => {
   const type = getType(value.process)
   const getFirstWords = getPhrase(value.firstValue, value.process)
   const getSecondWords = getPhrase(value.secondValue, value.process)
   const article = getArticle(value.process)
   const additionalPhrase = getAdditionalPhrase(value)
+  const bargain = getBargain(value.process, value.bargain, value.price)
 
-  return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}.`
+  return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}${bargain}.`
 }

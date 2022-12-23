@@ -5,11 +5,14 @@ import chineseBikes from "./chineseBikes";
 import waterMachines from "./waterMachines";
 import homes from "./homes";
 
-export const kindOfTransportWithSettings = ['machines', 'bikes']
-export const kindOfTransportWithoutSettings = [
-  'water transport',
+export const kindOfTransportWithSettings = [
+  'machines',
   'chinese machines',
-  'chinese bikes'
+  'chinese bikes',
+  'bikes'
+]
+export const kindOfTransportWithoutSettings = [
+  'water transport'
 ]
 export const kindOfTransport = [...kindOfTransportWithoutSettings, ...kindOfTransportWithSettings]
 

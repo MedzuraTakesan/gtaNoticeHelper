@@ -17,7 +17,12 @@
       :options="value.options"
       @change="onChangeValue"
     />
-    <span v-if="value.type === 'price'">Пустое поле: Цена договорная/ свободная</span>
+    <span v-if="value.type === 'price' && process === 'sell'">Пустое поле: Цена договорная</span>
+    <span v-if="value.type === 'price' && process === 'buy'">
+      0 - Цена договорная
+      <br/>
+      Пустое поле: Бюджет свободный
+    </span>
     <b-row v-if="isVisibleMachineSettings">
       <b-col>
         <span>Настройки транспорта</span>
