@@ -42,8 +42,9 @@ const getMachinePhrase = (value) => {
   const machineSettings = value.machineSettings === 'не указывать' || isWithoutSettings
     ? ''
     : ` ${value.machineSettings}`
+  const machineName = value.value.split('<--')[0]
 
-  return ` ${getMachineType(value.type)} ${value.value}${machineSettings}`
+  return ` ${getMachineType(value.type)} ${machineName}${machineSettings}`
 }
 
 const getGaragesCount = (value) => {
