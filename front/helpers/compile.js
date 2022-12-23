@@ -146,7 +146,7 @@ export const start = (value) => {
   const getSecondWords = getPhrase(value.secondValue, value.process)
   const article = getArticle(value.process)
   const additionalPhrase = getAdditionalPhrase(value)
-  const bargain = getBargain(value.process, value.bargain, value.price)
+  const bargain = getBargain(value.process, value.bargain, value.value)
 
   return `${type}${getFirstWords}${article}${getSecondWords}${additionalPhrase}${bargain}.`
 }
